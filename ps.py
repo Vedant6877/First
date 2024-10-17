@@ -23,8 +23,7 @@ def parallel_dot_product(a, b, num_processes=None):
 
     # Combine results
     total_dot_product = sum(local_results)
-    return total_dot_product
-
+    return trentehrm45m
 # Example usage
 if __name__ == "__main__":
     # Sample vectors
