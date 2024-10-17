@@ -1,18 +1,41 @@
 import numpy as np
+from multiprocessing import Pool
 
-# Define two vectors
-vector_a = np.array([1, 2, 3])
-vector_b = np.array([4, 5, 6])
+def dot_product_chunk(args):
+    a_chunk, b_chunk = args
+    return np.dot(a_chunk, b_chunk)
 
-# Print the vectors
-print("Vector A:", vector_a)
-print("Vector B:", vector_b)
+def parallel_dot_product(a, b, num_processes=None):
+    # Ensure the vectors are numpy arrays
+    a = np.array(a)
+    b = np.array(b)
 
-# Calculate the dot product
-dot_product = np.dot(vector_a, vector_b)
+    if len(a) != len(b):
+        raise ValueError("Vectors must be the same length.")
 
-# Print the dot product
-print("Dot Product:", dot_product)
+    # Split the vectors into chunks
+    chunk_size = len(a) // num_processes
+    chunks = [(a[i:i + chunk_size], b[i:i + chunk_size]) for i in range(0, len(a), chunk_size)]
+
+    # Create a pool of workers
+    with Pool(processes=num_processes) as pool:
+        local_results = pool.map(dot_product_chunk, chunks)
+
+    # Combine results
+    total_dot_product = sum(local_results)
+    return total_dot_product
+
+# Example usage
+if __name__ == "__main__":
+    # Sample vectors
+    a = np.random.rand(1000000)
+    b = np.random.rand(1000000)
+    
+    # Number of processes
+    num_processes = 4  # Adjust as needed
+
+    result = parallel_dot_product(a, b, num_processes)
+    print(f"The dot product is: {result}")
 
 sdahfkbsfoszhgaoghsgd
 
