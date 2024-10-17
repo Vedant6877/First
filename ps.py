@@ -14,3 +14,5 @@ dot_product = np.dot(vector_a, vector_b)
 # Print the dot product
 print("Dot Product:", dot_product)
 
+sdahfkbsfoszhgaoghsgd
+
